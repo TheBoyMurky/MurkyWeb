@@ -1,0 +1,21 @@
+/*
+Color Pallet
+494947 Davy's Gray
+35FF69 Sring Green
+5E239D Rebecca Purple
+78A1BB Air Superiority Blue
+E7ECEF Anti-Flash White
+*/
+
+body {
+    background-color: #E7ECEF;
+}
+
+body h1 {
+    color: #5E239D;
+    text-align: center;
+}
+body h2 {
+    color: #35FF69;
+    text-align: center;
+}

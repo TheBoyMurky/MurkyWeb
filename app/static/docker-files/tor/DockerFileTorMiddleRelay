@@ -1,0 +1,36 @@
+FROM alpine:3
+
+# Defining ENVs
+ENV TOR_RELAY_NICKNAME=""
+ENV TOR_RELAY_CONTACT_INFO=""
+ENV TOR_RELAY_ORPORT="9001"
+
+# Create a non-root user
+RUN addgroup toruser
+RUN adduser -G toruser -S toruser
+
+# Install Packages
+RUN apk update
+RUN apk upgrade
+RUN apk add tor nyx
+
+# Add permissions to toruser
+RUN \
+    chown -R toruser:toruser /var/lib/tor && \
+    chown -R toruser:toruser /etc/tor
+
+# Update torrc
+RUN [ -n "$TOR_RELAY_NICKNAME" ] && sed -i "s|^#Nickname .*|Nickname $TOR_NICKNAME|" /etc/tor/torrc
+RUN [ -n "$TOR_RELAY_CONTACT_INFO" ] && sed -i "s|^#ContactInfo .*|ContactInfo $TOR_CONTACT|" /etc/tor/torrc
+RUN [ -n "$TOR_RELAY_ORPORT" ] && sed -i "s|^#ORPort .*|ORPort $TOR_PORT|" /etc/tor/torrc
+RUN sed -i "s|^#ControlPort .*|ControlPort 9051|" /etc/tor/torrc
+RUN sed -i "s|^#CookieAuthentication .*|CookieAuthentication 1|" /etc/tor/torrc
+
+# Expose ORPort
+EXPOSE ${TOR_RELAY_ORPORT}
+
+# Update to non-root user
+USER toruser
+
+# Entrypoint
+ENTRYPOINT ["bash", "-c", "tor & sleep 5 && exec nyx"]

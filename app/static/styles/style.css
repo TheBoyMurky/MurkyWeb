@@ -1,0 +1,68 @@
+/*
+Color Pallet
+494947 Davy's Gray
+35FF69 Sring Green
+5E239D Rebecca Purple
+78A1BB Air Superiority Blue
+E7ECEF Anti-Flash White
+*/
+
+body {
+    background-color: #E7ECEF;
+    font-family: monospace;
+}
+
+header h1 {
+    color: #5E239D;
+    text-align: center;
+}
+header h2 {
+    color: #35FF69;
+    text-align: center;
+}
+
+header p {
+    color: #494947;
+    text-align: center;
+}
+
+footer {
+    background-color: #494947;
+    color: #35FF69;
+    text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.project-card:hover {
+  transform: scale(1.05);
+}
+
+.project-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.description {
+  padding: 10px;
+  color: white;
+  font-size: 1rem;
+  text-align: center;
+}

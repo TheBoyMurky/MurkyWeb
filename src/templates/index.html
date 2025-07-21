@@ -14,22 +14,26 @@
     </header>
     <main>
         <div class="grid-container">
-            <a href="/tor/tor-node" class="project-card">
-                <img src="../static/images/tor-node.jpg" alt="Project Tor Node">
-                <div class="description">Tor Node</div>
+            <a href="/tor/tor-middle-relay" class="project-card">
+                <img src="../static/images/tor.png" alt="Project Tor Middle Relay">
+                <div class="description">Tor Middle Relay</div>
             </a>
 
             <a href="/bitcoin/bitcoin-core" class="project-card">
-                <img src="../static/images/bitcoin-core.png" alt="Project Bitcoin Core">
+                <img src="../static/images/bitcoin.png" alt="Project Bitcoin Core">
                 <div class="description">Bitcoin Core</div>
+            </a>
+            
+            <a href="/monero/monero-node" class="project-card">
+                <img src="../static/images/monero.png" alt="Project Monero Node">
+                <div class="description">Monero Node</div>
             </a>
         </div>
     </main>
     <footer>
-        <p>Github Repository: https://github.com/TheBoyMurky/MurkyWeb</p>
         <p>Crypto Donations:</p>
-        <p>BTC: </p>
-        <p>XMR: </p>
+        <p>BTC: {{ btc }}</p>
+        <p>XMR: {{ xmr }}</p>
         <p>Este site está licenciado sob a <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">Licença MIT</a>.</p>
     </footer>
 </body>

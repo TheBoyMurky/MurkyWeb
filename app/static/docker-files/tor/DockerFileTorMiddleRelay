@@ -17,14 +17,20 @@ RUN apk add tor nyx
 # Add permissions to toruser
 RUN \
     chown -R toruser:toruser /var/lib/tor && \
+    chown -R toruser:toruser /var/log/tor && \
     chown -R toruser:toruser /etc/tor
 
 # Update torrc
-RUN [ -n "$TOR_RELAY_NICKNAME" ] && sed -i "s|^#Nickname .*|Nickname $TOR_NICKNAME|" /etc/tor/torrc
-RUN [ -n "$TOR_RELAY_CONTACT_INFO" ] && sed -i "s|^#ContactInfo .*|ContactInfo $TOR_CONTACT|" /etc/tor/torrc
-RUN [ -n "$TOR_RELAY_ORPORT" ] && sed -i "s|^#ORPort .*|ORPort $TOR_PORT|" /etc/tor/torrc
-RUN sed -i "s|^#ControlPort .*|ControlPort 9051|" /etc/tor/torrc
-RUN sed -i "s|^#CookieAuthentication .*|CookieAuthentication 1|" /etc/tor/torrc
+RUN mv /etc/tor/torrc.sample /etc/tor/torrc
+RUN /bin/sh -c '\
+  [ -n "$TOR_RELAY_NICKNAME" ] && sed -i "s|^#Nickname .*|Nickname $TOR_RELAY_NICKNAME|" /etc/tor/torrc; \
+  [ -n "$TOR_RELAY_CONTACT_INFO" ] && sed -i "s|^#ContactInfo .*|ContactInfo $TOR_RELAY_CONTACT_INFO|" /etc/tor/torrc; \
+  /sed -i "s|^#ORPort .*|ORPort $TOR_RELAY_ORPORT|" /etc/tor/torrc; \
+  sed -i "s|^#SOCKSPort .*|SOCKSPort 0|" /etc/tor/torrc; \
+  sed -i "s|^#ExitRelay .*|ExitRelay 0|" /etc/tor/torrc; \
+  sed -i "s|^#ControlPort .*|ControlPort 9051|" /etc/tor/torrc; \
+  sed -i "s|^#CookieAuthentication .*|CookieAuthentication 1|" /etc/tor/torrc'
+
 
 # Expose ORPort
 EXPOSE ${TOR_RELAY_ORPORT}
@@ -33,4 +39,4 @@ EXPOSE ${TOR_RELAY_ORPORT}
 USER toruser
 
 # Entrypoint
-ENTRYPOINT ["bash", "-c", "tor & sleep 5 && exec nyx"]
+ENTRYPOINT ["/bin/sh", "-c", "tor & sleep 5 && exec nyx"]
